@@ -44,10 +44,10 @@ class CompanyControllerTest {
     void should_return_all_companies_list_when_get_all_companies() throws Exception {
         String requestBody1 =  """
                 { "name": "ABC" }
-                """;;
+                """;
         String requestBody2 =  """
                 { "name": "DEF" }
-                """;;
+                """;
         mockMvc.perform(post("/companies")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody1));
@@ -58,6 +58,25 @@ class CompanyControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2));
+    }
+
+    @Test
+    void should_return_correct_company_when_given_valid_employee_id() throws Exception {
+        String requestBody =  """
+                { "name": "ABC" }
+                """;
+
+        mockMvc.perform(post("/companies")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody));
+
+        mockMvc.perform(get("/companies/{id}", 1)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.name").value("ABC"));
+
+
     }
 
 }
