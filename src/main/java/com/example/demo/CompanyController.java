@@ -58,6 +58,13 @@ public class CompanyController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
+    @GetMapping("/companies/toPage")
+    public List<Company> getEmployeesByPage(@RequestParam int page, @RequestParam int size) {
+        int start = (page - 1) * size;
+        int end = Math.min(start + size, companies.size());
+        return ResponseEntity.status(HttpStatus.OK).body(companies.subList(start, end)).getBody();
+    }
+
 
 
 }

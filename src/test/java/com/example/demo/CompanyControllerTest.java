@@ -110,4 +110,23 @@ class CompanyControllerTest {
                 .andExpect(status().isNoContent());
     }
 
+    @Test
+    void should_return_company_list_when_given_valid_page_and_size() throws Exception {
+        for (int i = 1; i <= 10; i++) {
+            String requestBody =  """
+                { "name": "ABC" }
+                """;
+            mockMvc.perform(post("/companies")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(requestBody));
+        }
+        mockMvc.perform(get("/companies/toPage?page=2&size=3")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(3))
+                .andExpect(jsonPath("$[0].id").value(4))
+                .andExpect(jsonPath("$[1].id").value(5))
+                .andExpect(jsonPath("$[2].id").value(6));
+    }
+
 }
