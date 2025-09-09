@@ -36,7 +36,16 @@ public class CompanyController {
         return null;
     }
 
-
+    @PutMapping("/companies/{id}")
+    public Company updateEmployee(@PathVariable int id, @RequestBody Company updateCompany) {
+        for (Company company : companies) {
+            if (company.getId() == id) {
+                company.setName(updateCompany.getName());
+                return ResponseEntity.status(HttpStatus.OK).body(company).getBody();
+            }
+        }
+        return null;
+    }
 
 
 
