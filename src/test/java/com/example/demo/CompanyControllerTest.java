@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,6 +38,26 @@ class CompanyControllerTest {
         mockMvc.perform(post("/companies")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody)).andExpect(status().isCreated()).andExpect(jsonPath("$.id").value(1));
+    }
+
+    @Test
+    void should_return_all_companies_list_when_get_all_companies() throws Exception {
+        String requestBody1 =  """
+                { "name": "ABC" }
+                """;;
+        String requestBody2 =  """
+                { "name": "DEF" }
+                """;;
+        mockMvc.perform(post("/companies")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody1));
+        mockMvc.perform(post("/companies")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody2));
+        mockMvc.perform(get("/companies/all")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2));
     }
 
 }
