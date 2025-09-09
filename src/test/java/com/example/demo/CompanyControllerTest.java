@@ -97,4 +97,17 @@ class CompanyControllerTest {
 
     }
 
+    @Test
+    void should_delete_company_when_given_valid_employee_id() throws Exception {
+        String requestBody =  """
+                { "name": "ABC" }
+                """;
+        mockMvc.perform(post("/companies")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody));
+        mockMvc.perform(delete("/companies/{id}", 1)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+    }
+
 }

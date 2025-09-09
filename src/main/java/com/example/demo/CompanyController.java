@@ -37,7 +37,7 @@ public class CompanyController {
     }
 
     @PutMapping("/companies/{id}")
-    public Company updateEmployee(@PathVariable int id, @RequestBody Company updateCompany) {
+    public Company updateCompany(@PathVariable int id, @RequestBody Company updateCompany) {
         for (Company company : companies) {
             if (company.getId() == id) {
                 company.setName(updateCompany.getName());
@@ -45,6 +45,17 @@ public class CompanyController {
             }
         }
         return null;
+    }
+
+    @DeleteMapping("/companies/{id}")
+    public ResponseEntity<Void> deleteCompany(@PathVariable int id) {
+        for (Company company: companies) {
+            if (company.getId() == id) {
+                companies.remove(company);
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            }
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
 
