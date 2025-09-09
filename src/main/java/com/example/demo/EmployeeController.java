@@ -18,10 +18,20 @@ public class EmployeeController {
 
     @PostMapping("/employees")
     public ResponseEntity<Map<String, Object>> createEmployee(@RequestBody Employee employee) {
-        int employeeId = employees.size() + 1;
+        int employeeId = employees.size()+1;
         employee.setId(employeeId);
         employees.add(employee);
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("id", employeeId));
+    }
+
+    @GetMapping("/employees/{id}")
+    public Employee getEmployee(@PathVariable int id) {
+        for (Employee employee : employees) {
+            if (employee.getId()==(id)) {
+                return ResponseEntity.status(HttpStatus.OK).body(employee).getBody();
+            }
+        }
+        return null;
     }
 
 
