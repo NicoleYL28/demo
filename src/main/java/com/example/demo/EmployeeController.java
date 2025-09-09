@@ -62,7 +62,23 @@ public class EmployeeController {
         return null;
     }
 
+    @DeleteMapping("/employees/{id}")
+    public ResponseEntity<Void> deleteEmployee(@PathVariable int id) {
+        for (Employee employee : employees) {
+            if (employee.getId() == id) {
+                employees.remove(employee);
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            }
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
 
+    @GetMapping("/employees/toPage")
+    public List<Employee> getEmployeesByPage(@RequestParam int page, @RequestParam int size) {
+        int start = (page - 1) * size;
+        int end = Math.min(start + size, employees.size());
+        return ResponseEntity.status(HttpStatus.OK).body(employees.subList(start, end)).getBody();
+    }
 
 
 }

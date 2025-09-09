@@ -162,6 +162,27 @@ class EmployeeControllerTest {
                 .andExpect(status().isNoContent());
     }
 
-
+    @Test
+    void should_return_employee_list_when_given_valid_page_and_size() throws Exception {
+        for (int i = 1; i <= 10; i++) {
+            String requestBody = """
+                    { "name": "Tom",
+                    "age": "18",
+                    "salary": "500.0",
+                    "gender": "Male"
+                    }
+                    """;
+            mockMvc.perform(post("/employees")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(requestBody));
+        }
+        mockMvc.perform(get("/employees/toPage?page=2&size=3")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(3))
+                .andExpect(jsonPath("$[0].id").value(4))
+                .andExpect(jsonPath("$[1].id").value(5))
+                .andExpect(jsonPath("$[2].id").value(6));
+    }
 
 }
