@@ -45,6 +45,10 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.OK).body(maleEmployees).getBody();
     }
 
+    @GetMapping("/employees/all")
+    public List<Employee> getAllEmployees() {
+        return ResponseEntity.status(HttpStatus.OK).body(employees).getBody();
+    }
 
 
 

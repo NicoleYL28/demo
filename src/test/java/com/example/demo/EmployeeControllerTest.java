@@ -88,5 +88,34 @@ class EmployeeControllerTest {
                 .andExpect(jsonPath("$[0].gender").value("Male"));
     }
 
+    @Test
+    void should_return_all_employee_list_when_get_all_employees() throws Exception {
+        String requestBody1 = """
+                { "name": "Tom",
+                "age": "18",
+                "salary": "500.0",
+                "gender": "Male"
+                }
+                """;
+        String requestBody2 = """
+                { "name": "Marry",
+                "age": "18",
+                "salary": "500.0",
+                "gender": "Female"
+                }
+                """;
+        mockMvc.perform(post("/employees")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody1));
+        mockMvc.perform(post("/employees")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody2));
+        mockMvc.perform(get("/employees/all")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2));
+    }
+
+
 
 }
