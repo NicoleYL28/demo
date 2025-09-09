@@ -145,6 +145,23 @@ class EmployeeControllerTest {
                 .andExpect(jsonPath("$.gender").value("Male"));
     }
 
+    @Test
+    void should_delete_employee_when_given_valid_employee_id() throws Exception {
+        String requestBody = """
+                { "name": "Tom",
+                "age": "18",
+                "salary": "500.0",
+                "gender": "Male"
+                }
+                """;
+        mockMvc.perform(post("/employees")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody));
+        mockMvc.perform(delete("/employees/{id}", 1)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+    }
+
 
 
 }
