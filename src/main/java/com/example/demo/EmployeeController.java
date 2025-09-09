@@ -34,5 +34,18 @@ public class EmployeeController {
         return null;
     }
 
+    @GetMapping("/employees")
+    public List<Employee> getMaleEmployee(@RequestParam String gender) {
+        List<Employee> maleEmployees = new ArrayList<>();
+        for (Employee employee : employees) {
+            if (employee.getGender().equals(gender)) {
+                maleEmployees.add(employee);
+            }
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(maleEmployees).getBody();
+    }
+
+
+
 
 }

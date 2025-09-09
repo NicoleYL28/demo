@@ -65,5 +65,28 @@ class EmployeeControllerTest {
 
     }
 
+    @Test
+    void should_return_employee_list_when_given_valid_employee_gender() throws Exception {
+        String requestBody = """
+                { "name": "John",
+                "age": "18",
+                "salary": "500.0",
+                "gender": "Male"
+                }
+                """;
+        mockMvc.perform(post("/employees")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody));
+
+        mockMvc.perform(get("/employees?gender=Male")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(1))
+                .andExpect(jsonPath("$[0].name").value("John"))
+                .andExpect(jsonPath("$[0].age").value(18))
+                .andExpect(jsonPath("$[0].salary").value(500.0))
+                .andExpect(jsonPath("$[0].gender").value("Male"));
+    }
+
 
 }
