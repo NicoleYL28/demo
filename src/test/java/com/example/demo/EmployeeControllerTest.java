@@ -116,6 +116,35 @@ class EmployeeControllerTest {
                 .andExpect(jsonPath("$.length()").value(2));
     }
 
+    @Test
+    void should_update_employee_when_given_valid_employee_id_and_body() throws Exception {
+        String requestBody = """
+                { "name": "Tom",
+                "age": "18",
+                "salary": "500.0",
+                "gender": "Male"
+                }
+                """;
+        mockMvc.perform(post("/employees")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody));
+        String updateRequestBody = """
+                { "name": "Tom",
+                "age": "20",
+                "salary": "800.0",
+                "gender": "Male"
+                }
+                """;
+        mockMvc.perform(put("/employees/{id}", 1)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updateRequestBody))
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.name").value("Tom"))
+                .andExpect(jsonPath("$.age").value(20))
+                .andExpect(jsonPath("$.salary").value(800.0))
+                .andExpect(jsonPath("$.gender").value("Male"));
+    }
+
 
 
 }

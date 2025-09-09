@@ -50,6 +50,19 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.OK).body(employees).getBody();
     }
 
+    @PutMapping("/employees/{id}")
+    public Employee updateEmployee(@PathVariable int id, @RequestBody Employee updateEmployee) {
+        for (Employee employee : employees) {
+            if (employee.getId() == id) {
+                employee.setAge(updateEmployee.getAge());
+                employee.setSalary(updateEmployee.getSalary());
+                return ResponseEntity.status(HttpStatus.OK).body(employee).getBody();
+            }
+        }
+        return null;
+    }
+
+
 
 
 }
