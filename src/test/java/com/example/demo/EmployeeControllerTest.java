@@ -110,7 +110,7 @@ class EmployeeControllerTest {
         mockMvc.perform(post("/employees")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody2));
-        mockMvc.perform(get("/employees/all")
+        mockMvc.perform(get("/employees")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2));
@@ -176,7 +176,7 @@ class EmployeeControllerTest {
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(requestBody));
         }
-        mockMvc.perform(get("/employees/toPage?page=2&size=3")
+        mockMvc.perform(get("/employees?page=2&size=3")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(3))

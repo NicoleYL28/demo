@@ -35,18 +35,25 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees")
-    public List<Employee> getMaleEmployee(@RequestParam String gender) {
-        List<Employee> maleEmployees = new ArrayList<>();
-        for (Employee employee : employees) {
-            if (employee.getGender().equals(gender)) {
-                maleEmployees.add(employee);
+    public List<Employee> getEmployee(@RequestParam(required = false) String gender,
+                                      @RequestParam(required = false) Integer page,
+                                      @RequestParam(required = false) Integer size) {
+        if(gender != null){
+            List<Employee> maleEmployees = new ArrayList<>();
+            for (Employee employee : employees) {
+                if (employee.getGender().equals(gender)) {
+                    maleEmployees.add(employee);
+                }
             }
+            return ResponseEntity.status(HttpStatus.OK).body(maleEmployees).getBody();
         }
-        return ResponseEntity.status(HttpStatus.OK).body(maleEmployees).getBody();
-    }
 
-    @GetMapping("/employees/all")
-    public List<Employee> getAllEmployees() {
+        if(page != null && size != null){
+            int start = (page - 1) * size;
+            int end = Math.min(start + size, employees.size());
+            return ResponseEntity.status(HttpStatus.OK).body(employees.subList(start, end)).getBody();
+        }
+
         return ResponseEntity.status(HttpStatus.OK).body(employees).getBody();
     }
 
@@ -71,13 +78,6 @@ public class EmployeeController {
             }
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-    }
-
-    @GetMapping("/employees/toPage")
-    public List<Employee> getEmployeesByPage(@RequestParam int page, @RequestParam int size) {
-        int start = (page - 1) * size;
-        int end = Math.min(start + size, employees.size());
-        return ResponseEntity.status(HttpStatus.OK).body(employees.subList(start, end)).getBody();
     }
 
 

@@ -21,10 +21,17 @@ public class CompanyController {
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("id", companyId));
     }
 
-    @GetMapping("/companies/all")
-    public List<Company> getAllCompanies() {
+    @GetMapping("/companies")
+    public List<Company> getCompanies(@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size) {
+        if (page!=null && size != null){
+            int start = (page - 1) * size;
+            int end = Math.min(start + size, companies.size());
+            return ResponseEntity.status(HttpStatus.OK).body(companies.subList(start, end)).getBody();
+        }
         return ResponseEntity.status(HttpStatus.OK).body(companies).getBody();
     }
+
+
 
     @GetMapping("/companies/{id}")
     public Company getCompany(@PathVariable int id) {
@@ -57,14 +64,5 @@ public class CompanyController {
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
-
-    @GetMapping("/companies/toPage")
-    public List<Company> getEmployeesByPage(@RequestParam int page, @RequestParam int size) {
-        int start = (page - 1) * size;
-        int end = Math.min(start + size, companies.size());
-        return ResponseEntity.status(HttpStatus.OK).body(companies.subList(start, end)).getBody();
-    }
-
-
 
 }
