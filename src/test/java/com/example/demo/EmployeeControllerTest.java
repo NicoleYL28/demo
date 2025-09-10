@@ -1,11 +1,14 @@
 package com.example.demo;
 
+import com.example.demo.controller.EmployeeController;
+import com.example.demo.service.EmployeeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Service;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -16,14 +19,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class EmployeeControllerTest {
     @Autowired
-    private EmployeeController EmployeeController;
-    @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private EmployeeService employeeService;
 
     @BeforeEach
     void setUp() {
-        EmployeeController.employees.clear();
+        employeeService.clear();
+//        Employee employee1 = new Employee("Tom", 18, 500.0, "Male");
+//        Employee employee2 = new Employee("Marry", 18, 500.0, "Female");
     }
+
 
     @Test
     void should_create_employee_when_given_valid_body() throws Exception {

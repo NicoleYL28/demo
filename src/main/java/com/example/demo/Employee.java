@@ -9,6 +9,9 @@ public class Employee {
     private double salary;
     private String gender;
 
+    public Employee(String tom, int i, double v, String male) {
+    }
+
     public String getName() {
         return name;
     }

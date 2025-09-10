@@ -24,7 +24,7 @@ class CompanyControllerTest {
 
     @BeforeEach
     void setUp() {
-        companyService.companies.clear();
+        companyService.clear();
     }
 
     @Test

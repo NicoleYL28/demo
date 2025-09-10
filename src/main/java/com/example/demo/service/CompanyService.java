@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.Company;
+import com.example.demo.repository.CompanyRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,50 +11,50 @@ import java.util.Map;
 @Service
 public class CompanyService {
 
-    public List<Company> companies = new ArrayList<>();
+    private final CompanyRepository companyRepository;
+
+    private int idCounter = 0;
+
+    public CompanyService(CompanyRepository companyRepository) {
+        this.companyRepository = companyRepository;
+    }
 
     public Map<String, Integer> create(Company company){
-        int companyId = companies.size()+1;
+        int companyId = ++idCounter;
         company.setId(companyId);
-        companies.add(company);
+        companyRepository.insert(company);
         return Map.of("id", companyId);
     }
 
+    public List<Company> getCompanies(){
+        return companyRepository.getCompanies();
+    }
+
     public Company getCompanyById(int id){
-        for (Company company : companies) {
-            if (company.getId()==(id)) {
-                return company;
-            }
-        }
-        return null;
+        return companyRepository.getCompany(id);
     }
 
 
     public List<Company> getCompanyByPage(int page, int size){
+        List<Company> companies = companyRepository.getCompanies();
         int start = (page - 1) * size;
         int end = Math.min(start + size, companies.size());
         return companies.subList(start, end);
     }
 
     public Company updateCompany(int id, Company updateCompany){
-        for (Company company : companies) {
-            if (company.getId() == id) {
-                company.setName(updateCompany.getName());
-                return company;
-            }
-        }
-        return null;
+        return  companyRepository.updateCompany(id, updateCompany);
     }
 
     public void deleteCompany(int id){
-        companies.removeIf(company -> company.getId() == id);
+        companyRepository.remove(id);
     }
 
-
-
-    public List<Company> getEmployees(){
-        return this.companies;
+    public void clear(){
+        idCounter = 0;
+        companyRepository.clear();
     }
+
 
 }
 

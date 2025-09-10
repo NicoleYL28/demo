@@ -1,15 +1,12 @@
 package com.example.demo.controller;
 
 import com.example.demo.Company;
-import com.example.demo.Employee;
 import com.example.demo.service.CompanyService;
-import com.example.demo.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -30,22 +27,22 @@ public class CompanyController {
             List<Company> filtered = companyService.getCompanyByPage(page, size);
             return ResponseEntity.status(HttpStatus.OK).body(filtered);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(companyService.companies);
+        return ResponseEntity.status(HttpStatus.OK).body(companyService.getCompanies());
     }
 
 
 
     @GetMapping("/companies/{id}")
-    public Company getCompany(@PathVariable int id) {
+    public ResponseEntity<Company> getCompany(@PathVariable int id) {
         Company company = companyService.getCompanyById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(company).getBody();
+        return ResponseEntity.status(HttpStatus.OK).body(company);
     }
 
     @PutMapping("/companies/{id}")
-    public Company updateCompany(@PathVariable int id, @RequestBody Company updateCompany) {
+    public ResponseEntity<Company> updateCompany(@PathVariable int id, @RequestBody Company updateCompany) {
 
         Company company = companyService.updateCompany(id, updateCompany);
-        return ResponseEntity.status(HttpStatus.OK).body(company).getBody();
+        return ResponseEntity.status(HttpStatus.OK).body(company);
     }
 
     @DeleteMapping("/companies/{id}")
