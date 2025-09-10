@@ -93,6 +93,16 @@ class EmployeeServiceTest {
 
     }
 
+    @Test
+    void should_return_error_when_update_given_left_employee(){
+        Employee employee = new Employee("Tom", 20, 800.0, "Male");
+        employee.setStatus(false);
 
+        Employee updateEmployee = new Employee("Tom", 21, 1000.0, "Male");
+        updateEmployee.setStatus(false);
+        assertThrows(EmployeeNotFoundException.class, () ->{
+            employeeService.updateEmployee(1, updateEmployee);
+        });
+    }
 
 }
