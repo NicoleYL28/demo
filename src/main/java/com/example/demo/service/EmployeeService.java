@@ -1,14 +1,13 @@
 package com.example.demo.service;
 
 import com.example.demo.Employee;
+import com.example.demo.expection.EmployeeAgeAndSalaryNotLegalException;
 import com.example.demo.expection.EmployeeAgeNotLegalException;
+import com.example.demo.expection.EmployeeNotFoundException;
 import com.example.demo.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,11 +19,14 @@ public class EmployeeService {
 
     private int idCounter = 0;
 
-    public Map<String, Integer> create(Employee employee){
-        if (employee.getAge() <18){
+    public Map<String, Integer> create(Employee employee) {
+        if (employee.getAge() <18 || employee.getAge() > 65){
             throw new EmployeeAgeNotLegalException();
+        } else if (employee.getAge() > 30 && employee.getSalary() < 20000) {
+            throw new EmployeeAgeAndSalaryNotLegalException();
         }
         int employeeId = ++idCounter;
+
         employee.setId(employeeId);
         employeeRepository.insert(employee);
         return Map.of("id", employeeId);
@@ -34,7 +36,11 @@ public class EmployeeService {
         return employeeRepository.getEmployees();
     }
 
-    public Employee getEmployee(int id){
+    public Employee getEmployee(int id) {
+        Employee employee = employeeRepository.getEmployee(id);
+        if(employee == null){
+            throw new EmployeeNotFoundException();
+        }
         return employeeRepository.getEmployee(id);
     }
 

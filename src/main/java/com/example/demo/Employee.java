@@ -8,8 +8,22 @@ public class Employee {
     private int age;
     private double salary;
     private String gender;
+    private boolean status;
 
-    public Employee(String tom, int i, double v, String male) {
+    public Employee(String name, int age, double salary, String gender) {
+        this.name =name;
+        this.age = age;
+        this.salary = salary;
+        this.gender = gender;
+        this.status = true;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public String getName() {
