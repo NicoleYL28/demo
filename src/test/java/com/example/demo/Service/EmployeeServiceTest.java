@@ -80,5 +80,19 @@ class EmployeeServiceTest {
         assertTrue(value.isStatus());
     }
 
+    @Test
+    void should_set_employee_status_false_when_delete_given_valid_body(){
+        Employee employee = new Employee("Tom", 20, 800.0, "Male");
+        employeeService.create(employee);
+        when(employeeRepository.getEmployee(1)).thenReturn(employee);
+        employeeService.deleteEmployee(1);
+        employee.setStatus(false);
+        verify(employeeRepository,times(1)).remove(1);
+        assertFalse(employee.isStatus());
+
+
+    }
+
+
 
 }

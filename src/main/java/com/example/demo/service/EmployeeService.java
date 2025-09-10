@@ -56,12 +56,17 @@ public class EmployeeService {
     }
 
     public Employee updateEmployee(int id, Employee updateEmployee){
+        if( !updateEmployee.isStatus()){
+            throw new EmployeeNotFoundException();
+        }
         return employeeRepository.updateEmployee(id, updateEmployee);
     }
 
-    public Employee deleteEmployee(int id){
-        return employeeRepository.remove(id);
-
+    public void deleteEmployee(int id){
+        if(!employeeRepository.getEmployee(id).isStatus()){
+            throw new EmployeeNotFoundException();
+        }
+        employeeRepository.remove(id);
     }
 
     public void clear(){
