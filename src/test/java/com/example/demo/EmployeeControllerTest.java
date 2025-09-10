@@ -147,6 +147,25 @@ class EmployeeControllerTest {
                 .content(requestBody)).andExpect(status().isBadRequest());
     }
 
+    @Test
+    void should_return_error_when_update_given_employee_left() throws Exception {
+        String requestBody = """
+                { "name": "Tom",
+                "age": "37",
+                "salary": "15000.0",
+                "gender": "Male",
+                "status": "false"
+                }
+                """;
+
+        mockMvc.perform(delete("/employees/{id}", 1)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+
+        mockMvc.perform(put("/employees/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)).andExpect(status().isBadRequest());
+    }
 
 
 
