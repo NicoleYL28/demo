@@ -49,8 +49,14 @@ public class EmployeeRepository {
         return null;
     }
 
-    public void remove(int id) {
-        employees.removeIf(employee -> employee.getId() == id);
+    public Employee remove(int id) {
+        for(Employee employee: employees){
+            if(employee.getId() == id){
+                employee.setStatus(false);
+                return employee;
+            }
+        }
+        return null;
     }
 
     public void clear() {

@@ -8,24 +8,23 @@ import com.example.demo.service.EmployeeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
 class EmployeeServiceTest {
     @InjectMocks
     EmployeeService employeeService;
+
+    @Captor
+    private ArgumentCaptor<Employee> employeeArgumentCaptor;
 
     @Mock
     EmployeeRepository employeeRepository;
@@ -70,6 +69,15 @@ class EmployeeServiceTest {
             employeeService.create(employee);
         });
         verify(employeeRepository,never()).insert(any());
+    }
+
+    @Test
+    void should_default_employee_status_true_when_create_given_valid_body(){
+        Employee employee = new Employee("Tom", 20, 800.0, "Male");
+        employeeService.create(employee);
+        verify(employeeRepository,times(1)).insert(employeeArgumentCaptor.capture());
+        Employee value = employeeArgumentCaptor.getValue();
+        assertTrue(value.isStatus());
     }
 
 

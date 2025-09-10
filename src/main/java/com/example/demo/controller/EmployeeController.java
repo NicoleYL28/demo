@@ -25,11 +25,8 @@ public class EmployeeController {
 
     @GetMapping("/employees/{id}")
     public ResponseEntity<Employee> getEmployee(@PathVariable int id) {
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(employeeService.getEmployee(id));
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.getEmployee(id));
+
     }
 
     @GetMapping("/employees")
