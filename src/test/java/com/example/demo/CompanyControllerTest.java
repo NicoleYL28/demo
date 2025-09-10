@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.service.CompanyService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -18,14 +18,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class CompanyControllerTest {
 
     @Autowired
-    private CompanyController CompanyController;
-    @Autowired
     private MockMvc mockMvc;
-
+    @Autowired
+    private CompanyService companyService;
 
     @BeforeEach
     void setUp() {
-        CompanyController.companies.clear();
+        companyService.companies.clear();
     }
 
     @Test
