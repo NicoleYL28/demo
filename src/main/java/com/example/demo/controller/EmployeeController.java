@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 
 import com.example.demo.Employee;
+import com.example.demo.dto.UpdateEmployeeReq;
 import com.example.demo.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,12 +20,12 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @PostMapping("/employees")
-    public ResponseEntity<Map<String, Integer>> createEmployee(@RequestBody Employee employee) {
+    public ResponseEntity<Map<String, Long>> createEmployee(@RequestBody Employee employee) {
         return ResponseEntity.status(HttpStatus.CREATED).body(employeeService.create(employee));
     }
 
     @GetMapping("/employees/{id}")
-    public ResponseEntity<Employee> getEmployee(@PathVariable int id) {
+    public ResponseEntity<Employee> getEmployee(@PathVariable long id) {
         return ResponseEntity.status(HttpStatus.OK).body(employeeService.getEmployee(id));
 
     }
@@ -47,13 +48,13 @@ public class EmployeeController {
     }
 
     @PutMapping("/employees/{id}")
-    public Employee updateEmployee(@PathVariable int id, @RequestBody Employee updateEmployee) {
-        Employee employee = employeeService.updateEmployee(id, updateEmployee);
+    public Employee updateEmployee(@PathVariable long id, @RequestBody UpdateEmployeeReq updateEmployee) {
+        Employee employee = employeeService.update(id, updateEmployee);
         return ResponseEntity.status(HttpStatus.OK).body(employee).getBody();
     }
 
     @DeleteMapping("/employees/{id}")
-    public ResponseEntity<Void> deleteEmployee(@PathVariable int id) {
+    public ResponseEntity<Void> deleteEmployee(@PathVariable long id) {
         employeeService.deleteEmployee(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

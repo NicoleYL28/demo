@@ -1,6 +1,7 @@
 package com.example.demo.repository;
 
 import com.example.demo.Employee;
+import com.example.demo.dto.UpdateEmployeeReq;
 import com.example.demo.expection.EmployeeAgeAndSalaryNotLegalException;
 import com.example.demo.expection.EmployeeAgeNotLegalException;
 import com.example.demo.expection.EmployeeNotFoundException;
@@ -87,7 +88,7 @@ class EmployeeServiceTest {
         when(employeeRepository.getEmployee(1)).thenReturn(employee);
         employeeService.deleteEmployee(1);
         employee.setStatus(false);
-        verify(employeeRepository,times(1)).remove(1);
+        verify(employeeRepository,times(1)).updateEmployee(1, employee);
         assertFalse(employee.isStatus());
 
 
@@ -98,10 +99,9 @@ class EmployeeServiceTest {
         Employee employee = new Employee("Tom", 20, 800.0, "Male");
         employee.setStatus(false);
 
-        Employee updateEmployee = new Employee("Tom", 21, 1000.0, "Male");
-        updateEmployee.setStatus(false);
+        UpdateEmployeeReq updateEmployee = new UpdateEmployeeReq("Tom", 25, 1000.0);
         assertThrows(EmployeeNotFoundException.class, () ->{
-            employeeService.updateEmployee(1, updateEmployee);
+            employeeService.update(employee.getId(), updateEmployee);
         });
     }
 

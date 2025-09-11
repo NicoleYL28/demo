@@ -1,14 +1,22 @@
 package com.example.demo;
 
 
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "employees")
 public class Employee {
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private String name;
     private int age;
     private double salary;
     private String gender;
     private boolean status;
+
+    @Column(name = "company_id")
+    private long companyId;
 
     public Employee(String name, int age, double salary, String gender) {
         this.name =name;
@@ -17,6 +25,8 @@ public class Employee {
         this.gender = gender;
         this.status = true;
     }
+
+    public Employee() {}
 
     public boolean isStatus() {
         return status;
@@ -58,12 +68,20 @@ public class Employee {
         this.gender = gender;
     }
 
-    public int getId(){
+    public long getId(){
         return this.id;
     }
 
-    public void setId(int id){
+    public void setId(long id){
         this.id = id;
+    }
+
+    public long getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(long id){
+        this.companyId = id;
     }
 
 }

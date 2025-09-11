@@ -7,57 +7,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class EmployeeRepository {
+public interface EmployeeRepository {
 
-    private final List<Employee> employees = new ArrayList<>();
+    List<Employee> employees = new ArrayList<>();
 
-    public List<Employee> getEmployees() {
-        return employees;
-    }
+    public List<Employee> getEmployees();
 
-    public void insert(Employee employee) {
-        employees.add(employee);
-    }
+    public void insert(Employee employee);
 
-    public Employee getEmployee(int id){
-        for (Employee employee : employees) {
-            if (employee.getId()==(id)) {
-                return employee;
-            }
-        }
-        return null;
-    }
+    public Employee getEmployee(long id);
 
-    public List<Employee> filteredByGender(String gender) {
-        List<Employee> filtered = new ArrayList<>();
-        for (Employee employee : employees) {
-            if (employee.getGender().equals(gender)) {
-                filtered.add(employee);
-            }
-        }
-        return filtered;
-    }
+    public List<Employee> filteredByGender(String gender);
 
-    public Employee updateEmployee(int id, Employee updateEmployee) {
-        for (Employee employee : employees) {
-            if (employee.getId() == id) {
-                employee.setAge(updateEmployee.getAge());
-                employee.setSalary(updateEmployee.getSalary());
-                return employee;
-            }
-        }
-        return null;
-    }
+    public Employee updateEmployee(long id, Employee updateEmployee);
 
-    public void remove(int id) {
-        for(Employee employee: employees){
-            if(employee.getId() == id){
-                employee.setStatus(false);
-            }
-        }
-    }
-
-    public void clear() {
-        employees.clear();
-    }
+    public void clear();
 }
