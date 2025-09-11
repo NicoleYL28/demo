@@ -1,14 +1,31 @@
 package com.example.demo;
 
+import jakarta.persistence.*;
+import org.springframework.core.SpringVersion;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "companies")
 public class Company {
-    private int id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    private long id;
     private String name;
 
-    public int getId() {
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id")
+
+    private List<Employee> employees = new ArrayList<>();
+
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -19,4 +36,13 @@ public class Company {
     public void setName(String name) {
         this.name = name;
     }
+
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
+    }
+
 }

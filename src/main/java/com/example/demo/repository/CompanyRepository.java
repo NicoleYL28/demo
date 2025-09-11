@@ -1,49 +1,25 @@
 package com.example.demo.repository;
 
 import com.example.demo.Company;
-import com.example.demo.Employee;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class CompanyRepository {
+public interface CompanyRepository {
 
-    private final List<Company> companies = new ArrayList<>();
+    List<Company> companies = new ArrayList<>();
 
-    public List<Company> getCompanies() {
-        return companies;
-    }
+    public List<Company> getCompanies();
 
-    public void insert(Company company) {
-        companies.add(company);
-    }
+    public void insert(Company company);
 
-    public Company getCompany(int id){
-        for (Company company : companies) {
-            if (company.getId()==(id)) {
-                return company;
-            }
-        }
-        return null;
-    }
+    public Company getCompany(long id);
 
-    public Company updateCompany(int id, Company updateCompany ) {
-        for (Company company : companies) {
-            if (company.getId() == id) {
-                company.setName(updateCompany.getName());
-                return company;
-            }
-        }
-        return null;
-    }
+    public Company updateCompany(long id, Company updateCompany );
 
-    public void remove(int id) {
-        companies.removeIf(company -> company.getId() == id);
-    }
+    public void remove(long id);
 
-    public void clear() {
-        companies.clear();
-    }
+    public void clear();
 }

@@ -16,8 +16,8 @@ public class CompanyController {
     private CompanyService companyService;
 
     @PostMapping("/companies")
-    public ResponseEntity<Map<String, Integer>> createCompany(@RequestBody Company company) {
-        Map<String, Integer> result = companyService.create(company);
+    public ResponseEntity<Map<String, Long>> createCompany(@RequestBody Company company) {
+        Map<String, Long> result = companyService.create(company);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
@@ -33,20 +33,20 @@ public class CompanyController {
 
 
     @GetMapping("/companies/{id}")
-    public ResponseEntity<Company> getCompany(@PathVariable int id) {
+    public ResponseEntity<Company> getCompany(@PathVariable long id) {
         Company company = companyService.getCompanyById(id);
         return ResponseEntity.status(HttpStatus.OK).body(company);
     }
 
     @PutMapping("/companies/{id}")
-    public ResponseEntity<Company> updateCompany(@PathVariable int id, @RequestBody Company updateCompany) {
+    public ResponseEntity<Company> updateCompany(@PathVariable long id, @RequestBody Company updateCompany) {
 
         Company company = companyService.updateCompany(id, updateCompany);
         return ResponseEntity.status(HttpStatus.OK).body(company);
     }
 
     @DeleteMapping("/companies/{id}")
-    public ResponseEntity<Void> deleteCompany(@PathVariable int id) {
+    public ResponseEntity<Void> deleteCompany(@PathVariable long id) {
         companyService.deleteCompany(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 

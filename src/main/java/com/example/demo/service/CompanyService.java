@@ -13,27 +13,23 @@ public class CompanyService {
 
     private final CompanyRepository companyRepository;
 
-    private int idCounter = 0;
 
     public CompanyService(CompanyRepository companyRepository) {
         this.companyRepository = companyRepository;
     }
 
-    public Map<String, Integer> create(Company company){
-        int companyId = ++idCounter;
-        company.setId(companyId);
+    public Map<String, Long> create(Company company){
         companyRepository.insert(company);
-        return Map.of("id", companyId);
+        return Map.of("id", company.getId());
     }
 
     public List<Company> getCompanies(){
         return companyRepository.getCompanies();
     }
 
-    public Company getCompanyById(int id){
+    public Company getCompanyById(long id){
         return companyRepository.getCompany(id);
     }
-
 
     public List<Company> getCompanyByPage(int page, int size){
         List<Company> companies = companyRepository.getCompanies();
@@ -42,16 +38,15 @@ public class CompanyService {
         return companies.subList(start, end);
     }
 
-    public Company updateCompany(int id, Company updateCompany){
+    public Company updateCompany(long id, Company updateCompany){
         return  companyRepository.updateCompany(id, updateCompany);
     }
 
-    public void deleteCompany(int id){
+    public void deleteCompany(long id){
         companyRepository.remove(id);
     }
 
     public void clear(){
-        idCounter = 0;
         companyRepository.clear();
     }
 

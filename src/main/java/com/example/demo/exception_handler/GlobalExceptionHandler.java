@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.exception_handler;
 
 import com.example.demo.expection.EmployeeAgeAndSalaryNotLegalException;
 import com.example.demo.expection.EmployeeAgeNotLegalException;
